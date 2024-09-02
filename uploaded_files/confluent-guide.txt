@@ -1,0 +1,48 @@
+Installation steps on Ubuntu 22:
+
+Prerequisites:
+Ensure your environment meets the software and hardware requirements.
+Obtain the Confluent public key:
+wget -qO - https://packages.confluent.io/deb/7.7/archive.key | sudo apt-key add -
+
+Add the repository:
+Add the Confluent repository to your /etc/apt/sources.list:
+sudo add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/7.7 stable main"
+sudo add-apt-repository "deb https://packages.confluent.io/clients/deb $(lsb_release -cs) main"
+
+Update and install:
+Update apt-get:
+sudo apt-get update
+
+Install the entire Confluent Platform:
+sudo apt-get install confluent-platform
+
+Service Names:
+The correct service name for starting Kafka in Confluent Platform is confluent-server, not confluent-kafka.
+Use the following command to start Kafka:
+sudo systemctl start confluent-server
+
+Verify Services:
+Confirm that Kafka is running:
+sudo systemctl status confluent-server
+
+
+----------------------------
+
+create a topic:
+
+cd /usr/bin/
+
+kafka-topics --create --topic my_topic --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
+
+
+check if the topic is created successfully
+kafka-topics --list --bootstrap-server localhost:9092
+
+produce a message
+kafka-console-producer --topic my_topic --bootstrap-server localhost:9092
+- type your message
+
+consume messages
+kafka-console-consumer --topic my_topic --from-beginning --bootstrap-server localhost:9092
+
